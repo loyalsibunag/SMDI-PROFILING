@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1><strong>SMDI Library</strong></h1>
+</br>
+  <form class="form-inline my-2 my-lg-0" method = "GET" action ="search">
+    <div class="sidebar-module sidebar-module-inset">
+      <input type="text" placeholder="Search" name="query" id ="query">
+      <button class="btn btn-info my-2 my-sm-0" type="submit">Search <i class="glyphicon glyphicon-search"></i></button>
+    </div>
+  </form>
+
+  <hr>
+
+<div class="box-body dataTable_wrapper">
+<div class="tab-content">
+  <div role="tabpanel" class="tab-pane active" id="activeTable">
+      <table id="table" class="table table-bordered table-striped table-responsive table-sm">
+        <thead class="table-head-inverse">
+          <tr>
+            <th>Station Code</th>
+            <th>Station Name</th>
+            <th>Location</th>
+            <th>Month</th>
+            <th>Day</th>
+            <th>Year</th>
+            <th>Weather</th>
+            <th>PC Location</th>
+            <th>Client</th>
+            <th>Type</th>
+            <th>Longitude</th>
+            <th>Latitude</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for article in articles %}
+          <tr class="danger">
+            <td>{{article.Station_Code}}</td>
+            <td>{{article.Station_Name}}</td>
+            <td>{{article.Location}}</td>
+            <td>{{article.Month}}</td>
+            <td>{{article.Day}}</td>
+            <td>{{article.Year}}</td>
+            <td>{{article.Weather}}</td>
+            <td>{{article.PC}}</td>
+            <td>{{article.Client}}</td>
+            <td>{{article.Type}}</td>
+            <td>{{article.Longitude}}</td>
+            <td>{{article.Latitude}}</td>
+            <td>
+              <a href="#" class="btn btn-warning btn-sm form form-inline"><i class="glyphicon glyphicon-refresh"></i></a>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
