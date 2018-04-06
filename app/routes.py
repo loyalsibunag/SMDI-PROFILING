@@ -19,8 +19,15 @@ from app.models import fileTable
 @app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-    articles = fileTable.query.filter_by(isActive=1)
-    return render_template('index.html', articles=articles)
+    page = request.args.get('page', 1, type=int)
+    articles = fileTable.query.paginate(
+        page, app.config['POSTS_PER_PAGE'], False)
+    next_url = url_for('index', page=articles.next_num) \
+        if articles.has_next else None
+    prev_url = url_for('index', page=articles.prev_num) \
+        if articles.has_prev else None
+    return render_template('index.html', title='Home', articles=articles.items, next_url=next_url,
+                           prev_url=prev_url)
 
 
 #Inactive Table
@@ -29,6 +36,20 @@ def index():
 def deactivate():
     articles = fileTable.query.filter_by(isActive = 0)
     return render_template('inActive.html', articles = articles)
+
+
+@app.route('/explore')
+@login_required
+def explore():
+    page = request.args.get('page', 1, type=int)
+    articles = fileTable.query.filter_by(isActive=1).paginate(
+        page, app.config['POSTS_PER_PAGE'], False)
+    next_url = url_for('explore', page=articles.next_num) \
+        if articles.has_next else None
+    prev_url = url_for('explore', page=articles.prev_num) \
+        if articles.has_prev else None
+    return render_template("index.html", title='Explore', articles=articles.items,
+                          next_url=next_url, prev_url=prev_url)
 
 
 @app.route('/login', methods=['GET', 'POST'])
